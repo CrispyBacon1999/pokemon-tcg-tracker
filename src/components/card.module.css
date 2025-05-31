@@ -1,0 +1,231 @@
+.card {
+  width: 300px;
+  height: 420px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.cardInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  background: none;
+  border: none;
+}
+
+.card:hover .cardInner {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.cardContent {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  transform-style: preserve-3d;
+  background: none;
+}
+
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  overflow: visible;
+}
+
+.pokemonImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-style: preserve-3d;
+  display: block;
+  margin: 2px;
+  border: none;
+  outline: none;
+}
+
+/* Base foil overlay styles */
+.foilOverlay {
+  position: absolute;
+  inset: -60%;
+  pointer-events: none;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: translateZ(1px);
+}
+
+/** Regular Holofoil */
+.holofoil .foilOverlay {
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.2) 30%,
+    rgba(255, 215, 0, 0.2) 40%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(0, 191, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0.2) 70%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  mix-blend-mode: screen;
+}
+
+/* Reverse Holofoil */
+.reverse-holofoil .foilOverlay {
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.5) 25%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.5) 75%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 2%,
+    black 2%,
+    black 15%,
+    transparent 15%,
+    transparent 85%,
+    black 85%,
+    black 98%,
+    transparent 98%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 2%,
+    black 2%,
+    black 15%,
+    transparent 15%,
+    transparent 85%,
+    black 85%,
+    black 98%,
+    transparent 98%,
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  opacity: 0.8;
+}
+
+/* Full Art Holofoil */
+.full-art .foilOverlay {
+  background: repeating-linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 4%,
+      rgba(255, 255, 255, 0.03) 5%,
+      rgba(255, 255, 255, 0.1) 6%,
+      rgba(255, 255, 255, 0.2) 7%,
+      rgba(255, 255, 255, 0.4) 8%,
+      rgba(255, 255, 255, 0.6) 10%,
+      rgba(255, 255, 255, 0.4) 12%,
+      rgba(255, 255, 255, 0.2) 13%,
+      rgba(255, 255, 255, 0.1) 14%,
+      rgba(255, 255, 255, 0.03) 15%,
+      transparent 16%,
+      transparent 20%
+    ),
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+  mix-blend-mode: overlay;
+  background-size: 56% 56%, 100% 100%;
+  background-position: center;
+  transform-style: preserve-3d;
+  transform: translateZ(1px);
+}
+
+/* Cosmos Holofoil */
+.cosmos .foilOverlay {
+  background: repeating-linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 2%,
+      rgba(255, 0, 0, 0.04) 3%,
+      rgba(255, 165, 0, 0.08) 4%,
+      rgba(255, 255, 0, 0.12) 5%,
+      rgba(0, 255, 0, 0.08) 6%,
+      rgba(0, 191, 255, 0.12) 7%,
+      rgba(0, 0, 255, 0.08) 8%,
+      rgba(238, 130, 238, 0.12) 9%,
+      rgba(255, 0, 0, 0.08) 10%,
+      rgba(255, 165, 0, 0.04) 11%,
+      transparent 12%,
+      transparent 14%
+    ),
+    linear-gradient(
+      125deg,
+      rgba(255, 0, 0, 0.06) 0%,
+      rgba(255, 165, 0, 0.1) 20%,
+      rgba(255, 255, 0, 0.14) 40%,
+      rgba(0, 255, 0, 0.1) 60%,
+      rgba(0, 191, 255, 0.14) 80%,
+      rgba(238, 130, 238, 0.06) 100%
+    );
+  mix-blend-mode: screen;
+  background-size: 40% 40%, 100% 100%;
+  background-position: center;
+  transform-style: preserve-3d;
+  transform: translateZ(1px);
+  opacity: 0.6;
+}
+
+.cosmosImage {
+  position: absolute;
+  inset: 0;
+  background: url(https://raw.githubusercontent.com/simeydotme/pokemon-cards-css/refs/heads/main/public/img/cosmos.png)
+    no-repeat center;
+  background-size: 100% 100%;
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 1;
+  transform-style: preserve-3d;
+  transform: translateZ(0.5px);
+  mask-image: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.8) 20%,
+    rgba(255, 255, 255, 0.3) 40%,
+    transparent 70%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.8) 20%,
+    rgba(255, 255, 255, 0.3) 40%,
+    transparent 70%
+  );
+  mask-size: 200% 200%;
+  -webkit-mask-size: 200% 200%;
+  mask-position: center;
+  -webkit-mask-position: center;
+}
+
+/* Remove the ::before pseudo-element since we're using the separate cosmosImage layer */
+.cosmos .foilOverlay::before {
+  display: none;
+}

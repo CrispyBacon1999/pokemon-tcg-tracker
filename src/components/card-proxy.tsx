@@ -1,18 +1,35 @@
 import { Card } from "../types/card";
 import "react-pokemon-card-effect/dist/assets/output-CMGRxOEV.css";
 import "react-pokemon-card-effect/dist/assets/output-PGVy4a0q.css";
+import { type FoilType, PokemonCard } from "./card";
+
+const rarityToFoilType: Record<string, FoilType> = {
+  Common: "none",
+  Uncommon: "holofoil",
+  Rare: "reverse-holofoil",
+  "Double Rare": "cosmos",
+  "Ultra Rare": "full-art",
+  "Hyper Rare": "cosmos",
+  "Special Illustration Rare": "full-art", // Need actual effect for this
+  "Illustration Rare": "full-art",
+};
 
 export default function CardProxy({ card }: { card: Card }) {
+  console.log(card);
+
   return (
-    <a href={card.tcgplayer.url} target="_blank">
-      <div className="flex flex-col items-center">
-        <img src={card.images.small} />
-        <h2 className="text-lg">
-          {card.number}/{card.set.printedTotal}
-        </h2>
-        <CardPrice card={card} />
-      </div>
-    </a>
+    <div className="flex flex-col items-center">
+      <a href={card.tcgplayer.url} target="_blank">
+        <PokemonCard
+          imageUrl={card.images.large}
+          foilType={rarityToFoilType[card.rarity] ?? "none"}
+        />
+      </a>
+      <h2 className="text-lg">
+        {card.number}/{card.set.printedTotal}
+      </h2>
+      <CardPrice card={card} />
+    </div>
   );
 }
 

@@ -97,11 +97,11 @@ export default function Home() {
           Search
         </Button>
       </form>
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-rows-auto gap-2 flex-wrap justify-center">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 grid-rows-auto gap-2 flex-wrap justify-center">
         {isLoading &&
           Array.from({ length: 10 }).map((_, index) => (
             <div key={index} className="flex flex-col gap-2">
-              <Skeleton className="w-[245px] aspect-[245/342]" />
+              <Skeleton className="w-[300px] h-[420px]" />
               <Skeleton className="w-full h-4" />
             </div>
           ))}
