@@ -30,7 +30,6 @@ export default function Home() {
   const {
     data: cardData,
     isLoading,
-    isFetching,
     refetch,
   } = useQuery({
     queryKey: ["cards", searchQuery, set?.id],

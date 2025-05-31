@@ -1,13 +1,8 @@
-import { HoloCard, HoloEffectType } from "react-pokemon-card-effect";
 import { Card } from "../types/card";
 import "react-pokemon-card-effect/dist/assets/output-CMGRxOEV.css";
 import "react-pokemon-card-effect/dist/assets/output-PGVy4a0q.css";
 
 export default function CardProxy({ card }: { card: Card }) {
-  const isShiny = card.number.startsWith("sv");
-  const isGallery = !!card.number.match(/^[tg]g/i);
-  // const isPromo = card.set.id === "swshp";
-
   return (
     <a href={card.tcgplayer.url} target="_blank">
       <div className="flex flex-col items-center">
