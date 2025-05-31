@@ -163,18 +163,18 @@
   background: repeating-linear-gradient(
       135deg,
       transparent 0%,
-      transparent 2%,
-      rgba(255, 0, 0, 0.04) 3%,
-      rgba(255, 165, 0, 0.08) 4%,
-      rgba(255, 255, 0, 0.12) 5%,
-      rgba(0, 255, 0, 0.08) 6%,
-      rgba(0, 191, 255, 0.12) 7%,
-      rgba(0, 0, 255, 0.08) 8%,
-      rgba(238, 130, 238, 0.12) 9%,
-      rgba(255, 0, 0, 0.08) 10%,
-      rgba(255, 165, 0, 0.04) 11%,
-      transparent 12%,
-      transparent 14%
+      transparent 1%,
+      rgba(255, 0, 0, 0.08) 2%,
+      rgba(255, 165, 0, 0.016) 3%,
+      rgba(255, 255, 0, 0.24) 4%,
+      rgba(0, 255, 0, 0.16) 4.5%,
+      rgba(0, 191, 255, 0.24) 5%,
+      rgba(0, 0, 255, 0.16) 5.5%,
+      rgba(238, 130, 238, 0.24) 6%,
+      rgba(255, 0, 0, 0.16) 7.5%,
+      rgba(255, 165, 0, 0.08) 8%,
+      transparent 9%,
+      transparent 10%
     ),
     linear-gradient(
       125deg,
@@ -200,7 +200,7 @@
     no-repeat center;
   background-size: 100% 100%;
   mix-blend-mode: screen;
-  opacity: 0.6;
+  opacity: 1;
   pointer-events: none;
   z-index: 1;
   transform-style: preserve-3d;
@@ -210,14 +210,14 @@
     rgba(255, 255, 255, 1) 0%,
     rgba(255, 255, 255, 0.8) 20%,
     rgba(255, 255, 255, 0.3) 40%,
-    transparent 70%
+    transparent 80%
   );
   -webkit-mask-image: radial-gradient(
     circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
     rgba(255, 255, 255, 1) 0%,
     rgba(255, 255, 255, 0.8) 20%,
     rgba(255, 255, 255, 0.3) 40%,
-    transparent 70%
+    transparent 80%
   );
   mask-size: 200% 200%;
   -webkit-mask-size: 200% 200%;
