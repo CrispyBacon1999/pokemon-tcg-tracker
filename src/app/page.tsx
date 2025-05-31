@@ -1,103 +1,115 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import { searchBySet } from "../api/search";
+import CardProxy from "../components/card-proxy";
+import { Input } from "../components/ui/input";
+import { Set } from "../types/set";
+import { Button } from "../components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { useQuery } from "@tanstack/react-query";
+import { getSets } from "../api/sets";
+import { Skeleton } from "../components/ui/skeleton";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const sets = useQuery({
+    queryKey: ["sets"],
+    queryFn: async () => {
+      const sets = await getSets();
+      return sets.data;
+    },
+    staleTime: 1000 * 60 * 60 * 24,
+  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [set, setSet] = useState<Set | undefined>(undefined);
+  const {
+    data: cardData,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: ["cards", searchQuery, set?.id],
+    queryFn: async () => {
+      const results = await searchBySet(searchQuery, set?.id);
+      return results.data;
+    },
+    enabled: !!searchQuery && !!set?.id,
+    staleTime: 1000 * 60 * 60 * 12,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const cards = cardData ?? [];
+
+  useEffect(() => {
+    if (sets.data && !set) {
+      setSet(sets.data.find((set) => set.id === localStorage.getItem("set")));
+    }
+  }, [sets.data]);
+
+  useEffect(() => {
+    if (!set) return;
+
+    const previousSet = localStorage.getItem("set");
+    if (set?.id !== previousSet) {
+      localStorage.setItem("set", set?.id ?? "");
+      refetch();
+    }
+  }, [set]);
+
+  return (
+    <main className="flex flex-col items-center h-screen gap-4 p-4">
+      <form
+        className="flex flex-row gap-2 w-full"
+        onSubmit={(e) => {
+          e.preventDefault();
+          refetch();
+        }}
+      >
+        <Select
+          onValueChange={(value) => {
+            setSet(sets.data?.find((set) => set.id === value));
+          }}
+          value={set?.id}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a set" />
+          </SelectTrigger>
+          <SelectContent>
+            {sets.data?.map((set) => (
+              <SelectItem key={set.id} value={set.id}>
+                <img src={set.images.symbol} className="w-6 mr-2" />
+                {set.id.toUpperCase()} - {set.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex-1"
+        />
+        <Button variant="outline" type="submit">
+          Search
+        </Button>
+      </form>
+      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-rows-auto gap-2 flex-wrap justify-center">
+        {isLoading &&
+          Array.from({ length: 10 }).map((_, index) => (
+            <div key={index} className="flex flex-col gap-2">
+              <Skeleton className="w-[245px] aspect-[245/342]" />
+              <Skeleton className="w-full h-4" />
+            </div>
+          ))}
+        {cards.map((card) => (
+          <CardProxy key={card.id} card={card} />
+        ))}
+      </section>
+    </main>
   );
 }
