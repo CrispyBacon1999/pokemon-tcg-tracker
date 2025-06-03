@@ -9,7 +9,8 @@ export type FoilType =
   | "reverse-holofoil"
   | "full-art"
   | "shining"
-  | "cosmos";
+  | "cosmos"
+  | "ace-spec";
 
 interface PokemonCardProps {
   imageUrl: string;
@@ -94,7 +95,9 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
         {foilType !== "none" && (
           <div
             className={styles.foilOverlay}
-            style={{ transform: holofoilTransform }}
+            style={{
+              transform: foilType === "ace-spec" ? "none" : holofoilTransform,
+            }}
           />
         )}
       </div>

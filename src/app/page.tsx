@@ -15,6 +15,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getSets } from "../api/sets";
 import { Skeleton } from "../components/ui/skeleton";
+import SearchDropdown from "../components/search-dropdown";
+import { debounce } from "@tanstack/pacer";
 
 export default function Home() {
   const sets = useQuery({
@@ -26,6 +28,9 @@ export default function Home() {
     staleTime: 1000 * 60 * 60 * 24,
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearch = debounce((search: string) => refetch(), {
+    wait: 500,
+  });
   const [set, setSet] = useState<Set | undefined>(undefined);
   const {
     data: cardData,
@@ -37,7 +42,7 @@ export default function Home() {
       const results = await searchBySet(searchQuery, set?.id);
       return results.data;
     },
-    enabled: !!searchQuery && !!set?.id,
+    enabled: false,
     staleTime: 1000 * 60 * 60 * 12,
   });
 
@@ -48,6 +53,12 @@ export default function Home() {
       setSet(sets.data.find((set) => set.id === localStorage.getItem("set")));
     }
   }, [sets.data]);
+
+  useEffect(() => {
+    if (searchQuery && set) {
+      debouncedSearch(searchQuery);
+    }
+  }, [searchQuery, set]);
 
   useEffect(() => {
     if (!set) return;
@@ -68,24 +79,19 @@ export default function Home() {
           refetch();
         }}
       >
-        <Select
-          onValueChange={(value) => {
-            setSet(sets.data?.find((set) => set.id === value));
-          }}
-          value={set?.id}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select a set" />
-          </SelectTrigger>
-          <SelectContent>
-            {sets.data?.map((set) => (
-              <SelectItem key={set.id} value={set.id}>
-                <img src={set.images.symbol} className="w-6 mr-2" />
-                {set.id.toUpperCase()} - {set.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <SearchDropdown
+          value={set?.id ?? ""}
+          options={
+            sets.data?.map((set) => ({
+              value: set.id,
+              label: `${set.id.toUpperCase()} - ${set.name}`,
+              image: set.images.symbol,
+            })) ?? []
+          }
+          onChange={(value) =>
+            setSet(sets.data?.find((set) => set.id === value))
+          }
+        />
 
         <Input
           type="text"

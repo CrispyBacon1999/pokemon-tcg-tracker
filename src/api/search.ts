@@ -24,7 +24,7 @@ export const searchBySet = cache(async (query: string | undefined, set: string |
   }
 
   if (query) {
-    queryString += `name:${query.replace(" ", "+")}`
+    queryString += `name:*${query.replace(" ", "+")}*`
   }
 
   if (set) {

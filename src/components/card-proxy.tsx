@@ -12,6 +12,8 @@ const rarityToFoilType: Record<string, FoilType> = {
   "Hyper Rare": "cosmos",
   "Special Illustration Rare": "full-art", // Need actual effect for this
   "Illustration Rare": "full-art",
+  "ACE SPEC Rare": "ace-spec", // This is pink trainer cards
+  // "ACE SPEC Ultra Rare": "full-art", // This is pink trainer cards
 };
 
 export default function CardProxy({ card }: { card: Card }) {
@@ -39,37 +41,38 @@ const priceFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export function CardPrice({ card }: { card: Card }) {
+  if (!card.tcgplayer.prices) return null;
   return (
     <div>
-      {card.tcgplayer.prices["1stEditionHolofoil"] ? (
+      {card.tcgplayer?.prices["1stEditionHolofoil"] ? (
         <p>
           1st Edition Holofoil:{" "}
           {priceFormatter.format(
-            card.tcgplayer.prices["1stEditionHolofoil"]?.market
+            card.tcgplayer?.prices["1stEditionHolofoil"]?.market
           )}
         </p>
       ) : null}
-      {card.tcgplayer.prices["1stEditionNormal"] ? (
+      {card.tcgplayer?.prices["1stEditionNormal"] ? (
         <p>
           1st Edition Normal:{" "}
           {priceFormatter.format(
-            card.tcgplayer.prices["1stEditionNormal"]?.market
+            card.tcgplayer?.prices["1stEditionNormal"]?.market
           )}
         </p>
       ) : null}
-      {card.tcgplayer.prices.reverseHolofoil ? (
+      {card.tcgplayer?.prices.reverseHolofoil ? (
         <p>
           Reverse Holofoil:{" "}
           {priceFormatter.format(card.tcgplayer.prices.reverseHolofoil?.market)}
         </p>
       ) : null}
-      {card.tcgplayer.prices.holofoil ? (
+      {card.tcgplayer?.prices.holofoil ? (
         <p>
           Holofoil:{" "}
           {priceFormatter.format(card.tcgplayer.prices.holofoil?.market)}
         </p>
       ) : null}
-      {card.tcgplayer.prices.normal ? (
+      {card.tcgplayer?.prices.normal ? (
         <p>
           Normal: {priceFormatter.format(card.tcgplayer.prices.normal?.market)}
         </p>
