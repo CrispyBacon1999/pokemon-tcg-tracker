@@ -47,6 +47,15 @@ export default function SearchDropdown({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
+              <CommandItem
+                key="all"
+                onSelect={() => {
+                  onChange("");
+                  setOpen(false);
+                }}
+              >
+                Any Pack
+              </CommandItem>
               {options.map((option) => (
                 <CommandItem
                   key={option.value}

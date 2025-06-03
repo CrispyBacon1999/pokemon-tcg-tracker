@@ -21,7 +21,7 @@ export default function CardProxy({ card }: { card: Card }) {
 
   return (
     <div className="flex flex-col items-center">
-      <a href={card.tcgplayer.url} target="_blank">
+      <a href={card.tcgplayer?.url} target="_blank">
         <PokemonCard
           imageUrl={card.images.large}
           foilType={rarityToFoilType[card.rarity] ?? "none"}
@@ -41,7 +41,7 @@ const priceFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export function CardPrice({ card }: { card: Card }) {
-  if (!card.tcgplayer.prices) return null;
+  if (!card.tcgplayer?.prices) return null;
   return (
     <div>
       {card.tcgplayer?.prices["1stEditionHolofoil"] ? (
