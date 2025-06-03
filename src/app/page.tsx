@@ -21,7 +21,7 @@ export default function Home() {
     staleTime: 1000 * 60 * 60 * 24,
   });
   const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearch = debounce((search: string) => refetch(), {
+  const debouncedSearch = debounce(() => refetch(), {
     wait: 500,
   });
   const [set, setSet] = useState<Set | undefined>(undefined);
@@ -49,7 +49,7 @@ export default function Home() {
 
   useEffect(() => {
     if (searchQuery && set) {
-      debouncedSearch(searchQuery);
+      debouncedSearch();
     }
   }, [searchQuery, set]);
 
