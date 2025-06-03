@@ -5,13 +5,6 @@ import CardProxy from "../components/card-proxy";
 import { Input } from "../components/ui/input";
 import { Set } from "../types/set";
 import { Button } from "../components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { getSets } from "../api/sets";
 import { Skeleton } from "../components/ui/skeleton";
