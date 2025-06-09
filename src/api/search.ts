@@ -2,6 +2,7 @@
 
 import { cache } from 'react';
 import { Card } from "../types/card";
+import { PokemonTCG } from "pokemon-tcg-sdk-typescript";
 
 const getSearchResults = async (queryString: string) => {
   const response = await fetch(`https://api.pokemontcg.io/v2/cards${queryString}`, {
@@ -24,7 +25,7 @@ export const searchBySet = cache(async (query: string | undefined, set: string |
   }
 
   if (query) {
-    queryString += `name:*${query.replace(" ", "+")}*`
+    queryString += `name:"*${query.replace(" ", "%20")}*"`
   }
 
   if (set) {
@@ -34,6 +35,8 @@ export const searchBySet = cache(async (query: string | undefined, set: string |
 
   // Order by price
   queryString += "&orderBy=-tcgplayer.prices.holofoil.market,-tcgplayer.prices.reverseHolofoil.market,-tcgplayer.prices.normal.market"
+
+  console.log(queryString);
 
   return getSearchResults(queryString);
 });
