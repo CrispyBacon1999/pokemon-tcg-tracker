@@ -10,6 +10,7 @@ const rarityToFoilType: Record<string, FoilType> = {
   "Double Rare": "cosmos",
   "Ultra Rare": "full-art",
   "Hyper Rare": "cosmos",
+  "Shiny Rare": "full-art",
   "Special Illustration Rare": "full-art", // Need actual effect for this
   "Illustration Rare": "full-art",
   "ACE SPEC Rare": "ace-spec", // This is pink trainer cards
