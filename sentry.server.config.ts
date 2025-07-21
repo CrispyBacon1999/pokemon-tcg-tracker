@@ -9,4 +9,10 @@ Sentry.init({
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
+
+  // Disable Sentry in development to prevent HMR issues
+  enabled: process.env.NODE_ENV === "production",
+
+  // Reduce noise in development
+  tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 0,
 });

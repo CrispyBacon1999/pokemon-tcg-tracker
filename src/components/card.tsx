@@ -10,17 +10,22 @@ export type FoilType =
   | "full-art"
   | "shining"
   | "cosmos"
-  | "ace-spec";
+  | "ace-spec"
+  | "black-white-rare";
 
 interface PokemonCardProps {
   imageUrl: string;
   foilType?: FoilType;
   className?: string;
+  pokemonName?: string;
 }
+
+const noTransformFoilTypes = ["ace-spec", "black-white-rare"];
 
 export const PokemonCard: React.FC<PokemonCardProps> = ({
   imageUrl,
   foilType = "none",
+  pokemonName = "",
   className = "",
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -95,8 +100,11 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
         {foilType !== "none" && (
           <div
             className={styles.foilOverlay}
+            data-pokemon-name={pokemonName}
             style={{
-              transform: foilType === "ace-spec" ? "none" : holofoilTransform,
+              transform: noTransformFoilTypes.includes(foilType)
+                ? "none"
+                : holofoilTransform,
             }}
           />
         )}

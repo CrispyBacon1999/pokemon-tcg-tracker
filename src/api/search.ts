@@ -33,7 +33,7 @@ export const searchBySet = cache(async (query: string | undefined, set: string |
   }
 
   // Order by price
-  queryString += "&orderBy=-tcgplayer.prices.holofoil.market,-tcgplayer.prices.reverseHolofoil.market,-tcgplayer.prices.normal.market"
+  queryString += "&orderBy=-tcgplayer.prices.holofoil.market,-tcgplayer.prices.reverseHolofoil.market,-tcgplayer.prices.normal.market,-number"
 
   // console.log(queryString);
 

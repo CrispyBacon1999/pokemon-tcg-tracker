@@ -15,6 +15,7 @@ const rarityToFoilType: Record<string, FoilType> = {
   "Illustration Rare": "full-art",
   "ACE SPEC Rare": "ace-spec", // This is pink trainer cards
   // "ACE SPEC Ultra Rare": "full-art", // This is pink trainer cards
+  "Black White Rare": "black-white-rare",
 };
 
 export default function CardProxy({ card }: { card: Card }) {
@@ -24,6 +25,7 @@ export default function CardProxy({ card }: { card: Card }) {
     <div className="flex flex-col items-center">
       <a href={card.tcgplayer?.url} target="_blank">
         <PokemonCard
+          pokemonName={card.name}
           imageUrl={card.images.large}
           foilType={rarityToFoilType[card.rarity] ?? "none"}
         />

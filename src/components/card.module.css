@@ -313,3 +313,28 @@
   -webkit-mask-position: var(--mouse-x, 50%) var(--mouse-y, 50%);
   opacity: 1;
 }
+
+.black-white-rare .foilOverlay[data-pokemon-name="Reshiram ex"] {
+  mask-image: url(/assets/reshiram-ex-mask.webp);
+}
+
+.black-white-rare .foilOverlay[data-pokemon-name="Zekrom ex"] {
+  mask-image: url(/assets/zekrom-ex-mask.webp);
+  opacity: 0.7;
+}
+
+.black-white-rare .foilOverlay {
+  background: linear-gradient(
+    230deg,
+    #0000ff 20%,
+    #00ff00 50%,
+    #ff7300 60%,
+    #ff7300 75%,
+    #ff0000 90%
+  );
+  mix-blend-mode: overlay;
+  inset: 0;
+  mask-size: 100% 100%;
+  mask-position: center;
+  mask-mode: luminance;
+}
