@@ -314,15 +314,6 @@
   opacity: 1;
 }
 
-.black-white-rare .foilOverlay[data-pokemon-name="Reshiram ex"] {
-  mask-image: url(/assets/reshiram-ex-mask.webp);
-}
-
-.black-white-rare .foilOverlay[data-pokemon-name="Zekrom ex"] {
-  mask-image: url(/assets/zekrom-ex-mask.webp);
-  opacity: 0.7;
-}
-
 .black-white-rare .foilOverlay {
   background: linear-gradient(
     230deg,
@@ -337,4 +328,40 @@
   mask-size: 100% 100%;
   mask-position: center;
   mask-mode: luminance;
+}
+
+.black-white-rare .foilOverlay[data-pokemon-name="Reshiram ex"] {
+  mask-image: url(/assets/reshiram-ex-mask.webp);
+  background: conic-gradient(
+    #00ff00 0%,
+    #0000ff 10%,
+    #00ff00 20%,
+    #ff0000 25%,
+    #ff7300 30%,
+    #009900 40%,
+    #0000ff 50%,
+    #ff0000 60%,
+    #ff7300 70%,
+    #009900 80%,
+    #0000ff 90%,
+    #00ff00 95%
+  );
+}
+
+.black-white-rare .foilOverlay[data-pokemon-name="Zekrom ex"] {
+  mask-image: url(/assets/zekrom-ex-mask.webp);
+  background: conic-gradient(
+    #00ff00 0%,
+    #0000ff 10%,
+    #00ff00 20%,
+    #ff0000 25%,
+    #ff7300 30%,
+    #009900 40%,
+    #0000ff 50%,
+    #ff0000 60%,
+    #ff7300 70%,
+    #009900 80%,
+    #0000ff 90%,
+    #00ff00 95%
+  );
 }
