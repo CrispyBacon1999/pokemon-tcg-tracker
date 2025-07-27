@@ -4,7 +4,6 @@ import { searchBySet } from "../api/search";
 import CardProxy from "../components/card-proxy";
 import { Input } from "../components/ui/input";
 import { Set } from "../types/set";
-import { Button } from "../components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getSets } from "../api/sets";
 import { Skeleton } from "../components/ui/skeleton";
@@ -103,9 +102,9 @@ export default function Home() {
           className="flex-1"
           placeholder="Search cards by name..."
         />
-        <Button variant="outline" type="submit">
+        {/* <Button variant="outline" type="submit">
           Search
-        </Button>
+        </Button> */}
       </form>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 grid-rows-auto gap-2 flex-wrap justify-center">
         {isLoading &&
