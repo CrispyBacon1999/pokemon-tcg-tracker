@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { searchBySet } from "../api/search";
 import CardProxy from "../components/card-proxy";
 import { Input } from "../components/ui/input";
@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getSets } from "../api/sets";
 import { Skeleton } from "../components/ui/skeleton";
 import SearchDropdown from "../components/search-dropdown";
-import { debounce } from "@tanstack/pacer";
+import { Card } from "../types/card";
 
 export default function Home() {
   const sets = useQuery({
@@ -21,25 +21,42 @@ export default function Home() {
     staleTime: 1000 * 60 * 60 * 24,
   });
   const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearch = debounce(() => refetch(), {
-    wait: 500,
-  });
   const [set, setSet] = useState<Set | undefined>(undefined);
+  const [allCards, setAllCards] = useState<Card[]>([]);
+
+  // Fetch all cards from the selected set
   const {
     data: cardData,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["cards", searchQuery, set?.id],
+    queryKey: ["cards", set?.id],
     queryFn: async () => {
-      const results = await searchBySet(searchQuery, set?.id);
-      return results.data;
+      if (!set?.id) return { data: [] };
+      // Fetch all cards from the set without name filtering
+      const results = await searchBySet(undefined, set.id);
+      return results;
     },
-    enabled: false,
+    enabled: !!set?.id,
     staleTime: 1000 * 60 * 60 * 12,
   });
 
-  const cards = cardData ?? [];
+  // Filter cards locally by name (case insensitive)
+  const filteredCards = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return allCards;
+    }
+
+    const query = searchQuery.toLowerCase();
+    return allCards.filter((card) => card.name.toLowerCase().includes(query));
+  }, [allCards, searchQuery]);
+
+  // Update allCards when cardData changes
+  useEffect(() => {
+    if (cardData) {
+      setAllCards(cardData.data || []);
+    }
+  }, [cardData]);
 
   useEffect(() => {
     if (sets.data && !set) {
@@ -48,18 +65,15 @@ export default function Home() {
   }, [sets.data]);
 
   useEffect(() => {
-    if (searchQuery && set) {
-      debouncedSearch();
-    }
-  }, [searchQuery, set]);
-
-  useEffect(() => {
     if (!set) return;
 
     const previousSet = localStorage.getItem("set");
     if (set?.id !== previousSet) {
       localStorage.setItem("set", set?.id ?? "");
-      refetch();
+      // Clear search query when changing sets
+      setSearchQuery("");
+      // Clear all cards when changing sets
+      setAllCards([]);
     }
   }, [set]);
 
@@ -69,7 +83,7 @@ export default function Home() {
         className="flex flex-row gap-2 w-full"
         onSubmit={(e) => {
           e.preventDefault();
-          refetch();
+          // No need to refetch since we're filtering locally
         }}
       >
         <SearchDropdown
@@ -91,6 +105,7 @@ export default function Home() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="flex-1"
+          placeholder="Search cards by name..."
         />
         <Button variant="outline" type="submit">
           Search
@@ -104,7 +119,7 @@ export default function Home() {
               <Skeleton className="w-full h-4" />
             </div>
           ))}
-        {cards.map((card) => (
+        {filteredCards.map((card) => (
           <CardProxy key={card.id} card={card} />
         ))}
       </section>
