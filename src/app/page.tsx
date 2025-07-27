@@ -25,11 +25,7 @@ export default function Home() {
   const [allCards, setAllCards] = useState<Card[]>([]);
 
   // Fetch all cards from the selected set
-  const {
-    data: cardData,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: cardData, isLoading } = useQuery({
     queryKey: ["cards", set?.id],
     queryFn: async () => {
       if (!set?.id) return { data: [] };
